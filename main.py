@@ -12,8 +12,8 @@ data = read_file()
 
 sidebar_menu = st.sidebar.selectbox(
 'What Operation would you like to perform?',
-['None', 'Food Recommendation', 'Data Visualisation'])
-if sidebar_menu == 'None':
+[' ', 'Food Recommendation', 'Data Visualisation'])
+if sidebar_menu == ' ':
     welcome_text = '<h1 style="font-family:sans-serif; color:White;">Food Recommendation System for Diabetic Patients </h1>'
     app_description = '<p style="font-family:Courier; color:White; font-size: 20px;">This data science project recommends food for diabetic patients. This product is intended for diabetic patients and it is assumed that the handler or the user is aware.</p>'
     st.markdown(welcome_text, unsafe_allow_html=True)
