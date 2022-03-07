@@ -2,13 +2,25 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 from food_recommender import FoodRecommender
-from utils import (plot_stack_bar_chart, read_file, find_bmi_range, 
-                   set_bg_hack_url, daily_calorie_burn,
-                   plot_bar_chart,scatter_plot)
+from utils import (plot_stack_bar_chart, 
+                   read_file, find_bmi_range, 
+                   set_bg_hack_url,
+                   daily_calorie_burn,
+                   plot_bar_chart,
+                   scatter_plot, 
+                   food_recommender_helper)
 
 
 check_bmi = None
 data = read_file()
+weight_class = {
+    'Underweight': 1,
+    'Normal weight': 2,
+    'Pre-obesity': 3,
+    'Obesity class I': 4,
+    'Obesity class II': 5,
+    'Obesity class III': 6
+}
 
 sidebar_menu = st.sidebar.selectbox(
 'What Operation would you like to perform?',
@@ -36,7 +48,8 @@ if sidebar_menu == 'Food Recommendation':
         check_bmi = find_bmi_range(bmi)
         bmr = daily_calorie_burn(gender,weight,height,age)
         with st.spinner('Loading...'):
-            recommended = food_recommender.KNN_recommender_algo(data, 1000, bmr)
+            recommended = food_recommender_helper(data, bmr, weight_class[check_bmi])
+            food_recommender.KNN_recommender_algo(data, 1000, bmr)
         st.markdown(f'<h6 style="font-family:Courier; color:Black;">BMI Status: {check_bmi}</h6>', unsafe_allow_html=True)
         st.markdown(f'<h6 style="font-family:Courier; color:Black;">Food and Nutrient Recommendation</h6>', unsafe_allow_html=True)
         st.table(recommended)

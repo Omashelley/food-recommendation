@@ -1,7 +1,6 @@
-import numpy as np
+import random
 import pandas as pd
 import matplotlib.pyplot as plt
-
 
 def read_file():
     df = pd.read_csv('nutrition.csv')
@@ -25,7 +24,17 @@ def find_bmi_range(value):
         result = 'Obesity class II'
     elif value > 40:
         result = 'Obesity class III'
-    return result 
+    return result
+
+def food_recommender_helper(df, calories, weight_class):
+    random.seed(weight_class)
+    df = df.dropna()
+    df = df[df.calories > (calories/100)]
+    food_list = list(df['name'].values)
+    selected_food = random.sample(food_list, 10)
+    df = df.loc[df['name'].isin(selected_food)]
+    df = df[['name', 'calories', 'fat', 'carbohydrate', 'protein']]
+    return df
 
 def set_bg_hack_url(st):
     st.markdown(
